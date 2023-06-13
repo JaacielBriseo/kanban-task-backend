@@ -26,4 +26,4 @@ docker-compose up -d
 yarn start:dev
 ```
 
-- Visit **localhost:4000/graphql**
+- Visit **localhost:4001/graphql**
