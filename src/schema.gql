@@ -10,15 +10,21 @@ type User {
   isActive: Boolean!
 }
 
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
 type Query {
   users: [User!]!
-  user(id: Int!): User!
+  user(id: ID!): User!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  signup(signupInput: SignupInput!): AuthResponse!
 }
 
 input CreateUserInput {
@@ -32,4 +38,10 @@ input UpdateUserInput {
   fullName: String
   password: String
   id: Int!
+}
+
+input SignupInput {
+  email: String!
+  fullName: String!
+  password: String!
 }

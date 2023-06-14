@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
+
 import { UpdateUserInput } from './dto/update-user.input';
+import { SignupInput } from '../auth/dto/inputs/signup.input';
+
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
+  async create({ email, fullName, password }: SignupInput): Promise<User> {
+    try {
+      const newUser = this.usersRepository.create({
+        email,
+        fullName,
+        password: bcrypt.hashSync(password, 10),
+      });
+      return await this.usersRepository.save(newUser);
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException('Something wrong');
+    }
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    return [];
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<User> {
+    throw new Error('findOne not implemented');
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
+    throw new Error('update user not implemented');
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    throw new Error('remove user not implemented');
   }
 }
