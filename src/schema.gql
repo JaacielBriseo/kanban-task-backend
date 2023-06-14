@@ -18,6 +18,7 @@ type AuthResponse {
 type Query {
   users: [User!]!
   user(id: ID!): User!
+  revalidate: AuthResponse!
 }
 
 type Mutation {

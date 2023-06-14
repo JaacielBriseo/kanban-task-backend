@@ -55,6 +55,17 @@ export class UsersService {
     }
   }
 
+  async findOneById(id: string): Promise<User> {
+    try {
+      return await this.usersRepository.findOneByOrFail({ id });
+    } catch (error) {
+      this.handleDBErrors({
+        code: 'error-002',
+        detail: `user with '${id}' not found`,
+      });
+    }
+  }
+
   async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
     throw new Error('update user not implemented');
   }
