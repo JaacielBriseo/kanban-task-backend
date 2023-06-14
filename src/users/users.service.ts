@@ -44,6 +44,17 @@ export class UsersService {
     throw new Error('findOne not implemented');
   }
 
+  async findOneByEmail(email: string): Promise<User> {
+    try {
+      return await this.usersRepository.findOneByOrFail({ email });
+    } catch (error) {
+      this.handleDBErrors({
+        code: 'error-001',
+        detail: `${email} not found`,
+      });
+    }
+  }
+
   async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
     throw new Error('update user not implemented');
   }
