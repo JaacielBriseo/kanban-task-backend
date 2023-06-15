@@ -1,35 +1,58 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { BoardsService } from './boards.service';
+import { ParseUUIDPipe, UseGuards } from '@nestjs/common';
+import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+
 import { Board } from './entities/board.entity';
-import { CreateBoardInput } from './dto/create-board.input';
-import { UpdateBoardInput } from './dto/update-board.input';
+import { User } from '../users/entities/user.entity';
+import { CreateBoardInput, UpdateBoardInput } from './dto';
+
+import { BoardsService } from './boards.service';
 
 @Resolver(() => Board)
+@UseGuards(JwtAuthGuard)
 export class BoardsResolver {
   constructor(private readonly boardsService: BoardsService) {}
 
   @Mutation(() => Board)
-  createBoard(@Args('createBoardInput') createBoardInput: CreateBoardInput) {
-    return this.boardsService.create(createBoardInput);
+  async createBoard(
+    @Args('createBoardInput') createBoardInput: CreateBoardInput,
+    @CurrentUser() user: User,
+  ): Promise<Board> {
+    return this.boardsService.create(createBoardInput, user);
   }
 
   @Query(() => [Board], { name: 'boards' })
-  findAll() {
-    return this.boardsService.findAll();
+  findAll(@CurrentUser() user: User): Promise<Board[]> {
+    return this.boardsService.findAll(user);
   }
 
   @Query(() => Board, { name: 'board' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.boardsService.findOne(id);
+  findOne(
+    @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+    @CurrentUser() user: User,
+  ): Promise<Board> {
+    return this.boardsService.findOne(id, user);
   }
 
   @Mutation(() => Board)
-  updateBoard(@Args('updateBoardInput') updateBoardInput: UpdateBoardInput) {
-    return this.boardsService.update(updateBoardInput.id, updateBoardInput);
+  updateBoard(
+    @Args('updateBoardInput') updateBoardInput: UpdateBoardInput,
+    @CurrentUser() user: User,
+  ): Promise<Board> {
+    return this.boardsService.update(
+      updateBoardInput.id,
+      updateBoardInput,
+      user,
+    );
   }
 
   @Mutation(() => Board)
-  removeBoard(@Args('id', { type: () => Int }) id: number) {
-    return this.boardsService.remove(id);
+  removeBoard(
+    @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+    @CurrentUser() user: User,
+  ): Promise<Board> {
+    return this.boardsService.remove(id, user);
   }
 }

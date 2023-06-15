@@ -26,7 +26,9 @@ export class Task {
 
   @Column('text')
   @Field(() => String)
-  status: string;
+  get status(): string {
+    return this.column?.columnName || '';
+  }
 
   @ManyToOne(() => ColumnEntity, (column) => column.tasks)
   column: ColumnEntity;

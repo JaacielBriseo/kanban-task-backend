@@ -1,8 +1,10 @@
+import { InputType, Field, PartialType, ID } from '@nestjs/graphql';
+import { IsUUID } from 'class-validator';
 import { CreateBoardInput } from './create-board.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateBoardInput extends PartialType(CreateBoardInput) {
-  @Field(() => Int)
-  id: number;
+  @Field(() => ID)
+  @IsUUID()
+  id: string;
 }

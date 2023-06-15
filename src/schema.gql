@@ -35,6 +35,7 @@ type User {
   email: String!
   password: String!
   isActive: Boolean!
+  boards: [Board!]!
 }
 
 type AuthResponse {
@@ -46,7 +47,7 @@ type Query {
   users: [User!]!
   user(id: ID!): User!
   boards: [Board!]!
-  board(id: Int!): Board!
+  board(id: ID!): Board!
   columns: [ColumnEntity!]!
   column(id: Int!): ColumnEntity!
   tasks: [Task!]!
@@ -62,7 +63,7 @@ type Mutation {
   removeUser(id: Int!): User!
   createBoard(createBoardInput: CreateBoardInput!): Board!
   updateBoard(updateBoardInput: UpdateBoardInput!): Board!
-  removeBoard(id: Int!): Board!
+  removeBoard(id: ID!): Board!
   createColumn(createColumnInput: CreateColumnInput!): ColumnEntity!
   updateColumn(updateColumnInput: UpdateColumnInput!): ColumnEntity!
   removeColumn(id: Int!): ColumnEntity!
@@ -90,24 +91,24 @@ input UpdateUserInput {
 }
 
 input CreateBoardInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  boardName: String!
+  columnsNames: [String!]
 }
 
 input UpdateBoardInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  boardName: String
+  columnsNames: [String!]
+  id: ID!
 }
 
 input CreateColumnInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  columnName: String!
+  boardId: ID!
 }
 
 input UpdateColumnInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  columnName: String
+  boardId: ID
   id: Int!
 }
 

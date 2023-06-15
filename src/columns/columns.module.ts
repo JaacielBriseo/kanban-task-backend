@@ -8,6 +8,6 @@ import { TasksModule } from '../tasks/tasks.module';
 @Module({
   providers: [ColumnsResolver, ColumnsService],
   imports: [TypeOrmModule.forFeature([ColumnEntity]), TasksModule],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, ColumnsService],
 })
 export class ColumnsModule {}

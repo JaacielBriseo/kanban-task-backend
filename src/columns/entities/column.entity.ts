@@ -20,7 +20,7 @@ export class ColumnEntity {
   @Field(() => String)
   columnName: string;
 
-  @ManyToOne(() => Board, (board) => board.columns)
+  @ManyToOne(() => Board, (board) => board.columns, { onDelete: 'CASCADE' })
   board: Board;
 
   @OneToMany(() => Task, (task) => task.column, { lazy: true })

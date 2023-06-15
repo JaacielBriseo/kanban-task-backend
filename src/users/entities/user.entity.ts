@@ -30,5 +30,6 @@ export class User {
 
   //? Boards relation
   @OneToMany(() => Board, (board) => board.user, { lazy: true })
+  @Field(() => [Board])
   boards: Board[];
 }

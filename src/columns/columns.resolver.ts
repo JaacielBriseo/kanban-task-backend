@@ -9,9 +9,9 @@ export class ColumnsResolver {
   constructor(private readonly columnsService: ColumnsService) {}
 
   @Mutation(() => ColumnEntity)
-  createColumn(
+  async createColumn(
     @Args('createColumnInput') createColumnInput: CreateColumnInput,
-  ) {
+  ): Promise<ColumnEntity> {
     return this.columnsService.create(createColumnInput);
   }
 

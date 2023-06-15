@@ -21,7 +21,10 @@ export class Board {
   @Field(() => String)
   boardName: string;
 
-  @OneToMany(() => ColumnEntity, (column) => column.board, { lazy: true })
+  @OneToMany(() => ColumnEntity, (column) => column.board, {
+    lazy: true,
+    // cascade: true,
+  })
   @Field(() => [ColumnEntity])
   columns: ColumnEntity[];
 
