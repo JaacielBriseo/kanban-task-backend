@@ -1,7 +1,14 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field, ID } from '@nestjs/graphql';
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 @InputType()
 export class CreateSubtaskInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field(() => ID)
+  @IsUUID()
+  taskId: string;
+
+  @Field(() => String)
+  @IsString()
+  @IsNotEmpty()
+  title: string;
 }

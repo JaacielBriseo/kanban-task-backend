@@ -49,12 +49,12 @@ type Query {
   boards: [Board!]!
   board(id: ID!): Board!
   columns: [ColumnEntity!]!
-  column(id: Int!): ColumnEntity!
+  column(id: ID!): ColumnEntity!
+  revalidate: AuthResponse!
   tasks: [Task!]!
   task(id: Int!): Task!
   subtasks: [Subtask!]!
   subtask(id: Int!): Subtask!
-  revalidate: AuthResponse!
 }
 
 type Mutation {
@@ -67,14 +67,14 @@ type Mutation {
   createColumn(createColumnInput: CreateColumnInput!): ColumnEntity!
   updateColumn(updateColumnInput: UpdateColumnInput!): ColumnEntity!
   removeColumn(id: Int!): ColumnEntity!
+  signup(signupInput: SignupInput!): AuthResponse!
+  login(loginInput: LoginInput!): AuthResponse!
   createTask(createTaskInput: CreateTaskInput!): Task!
   updateTask(updateTaskInput: UpdateTaskInput!): Task!
   removeTask(id: Int!): Task!
   createSubtask(createSubtaskInput: CreateSubtaskInput!): Subtask!
   updateSubtask(updateSubtaskInput: UpdateSubtaskInput!): Subtask!
   removeSubtask(id: Int!): Subtask!
-  signup(signupInput: SignupInput!): AuthResponse!
-  login(loginInput: LoginInput!): AuthResponse!
 }
 
 input CreateUserInput {
@@ -112,28 +112,6 @@ input UpdateColumnInput {
   id: Int!
 }
 
-input CreateTaskInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateTaskInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateSubtaskInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateSubtaskInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 input SignupInput {
   email: String!
   fullName: String!
@@ -143,4 +121,30 @@ input SignupInput {
 input LoginInput {
   email: String!
   password: String!
+}
+
+input CreateTaskInput {
+  title: String!
+  description: String!
+  columnId: ID!
+  subtasksTitles: [String!]
+}
+
+input UpdateTaskInput {
+  title: String
+  description: String
+  columnId: ID
+  subtasksTitles: [String!]
+  id: Int!
+}
+
+input CreateSubtaskInput {
+  taskId: ID!
+  title: String!
+}
+
+input UpdateSubtaskInput {
+  taskId: ID
+  title: String
+  id: Int!
 }

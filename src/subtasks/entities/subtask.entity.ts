@@ -13,7 +13,7 @@ export class Subtask {
   @Field(() => String)
   title: string;
 
-  @Column('boolean')
+  @Column('boolean', { default: false })
   @Field(() => Boolean)
   isCompleted: boolean;
 

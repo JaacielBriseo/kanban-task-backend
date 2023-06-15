@@ -1,8 +1,9 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { ColumnsService } from './columns.service';
 import { ColumnEntity } from './entities/column.entity';
 import { CreateColumnInput } from './dto/create-column.input';
 import { UpdateColumnInput } from './dto/update-column.input';
+import { ParseUUIDPipe } from '@nestjs/common';
 
 @Resolver(() => ColumnEntity)
 export class ColumnsResolver {
@@ -21,7 +22,9 @@ export class ColumnsResolver {
   }
 
   @Query(() => ColumnEntity, { name: 'column' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(
+    @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+  ): Promise<ColumnEntity> {
     return this.columnsService.findOne(id);
   }
 

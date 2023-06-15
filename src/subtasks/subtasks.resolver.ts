@@ -9,7 +9,9 @@ export class SubtasksResolver {
   constructor(private readonly subtasksService: SubtasksService) {}
 
   @Mutation(() => Subtask)
-  createSubtask(@Args('createSubtaskInput') createSubtaskInput: CreateSubtaskInput) {
+  async createSubtask(
+    @Args('createSubtaskInput') createSubtaskInput: CreateSubtaskInput,
+  ): Promise<Subtask> {
     return this.subtasksService.create(createSubtaskInput);
   }
 
@@ -24,8 +26,13 @@ export class SubtasksResolver {
   }
 
   @Mutation(() => Subtask)
-  updateSubtask(@Args('updateSubtaskInput') updateSubtaskInput: UpdateSubtaskInput) {
-    return this.subtasksService.update(updateSubtaskInput.id, updateSubtaskInput);
+  updateSubtask(
+    @Args('updateSubtaskInput') updateSubtaskInput: UpdateSubtaskInput,
+  ) {
+    return this.subtasksService.update(
+      updateSubtaskInput.id,
+      updateSubtaskInput,
+    );
   }
 
   @Mutation(() => Subtask)

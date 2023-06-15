@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateColumnInput } from './dto/create-column.input';
 import { UpdateColumnInput } from './dto/update-column.input';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,19 +24,23 @@ export class ColumnsService {
     return await this.columnsRepository.save(newColumn);
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all columns`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} column`;
+  async findOne(id: string): Promise<ColumnEntity> {
+    const column = await this.columnsRepository.findOneBy({ id });
+
+    if (!column)
+      throw new NotFoundException(`Column with id '${id}' not found`);
+    return column;
   }
 
-  update(id: number, updateColumnInput: UpdateColumnInput) {
+  async update(id: number, updateColumnInput: UpdateColumnInput) {
     return `This action updates a #${id} column`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} column`;
   }
 }

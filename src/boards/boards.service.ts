@@ -38,11 +38,11 @@ export class BoardsService {
       const savedBoard = await this.boardsRepository.save(newBoard);
 
       if (columnsNames && columnsNames.length > 0) {
-        const columns = columnsNames.map((columnName) =>
+        const columnsPromises = columnsNames.map((columnName) =>
           this.columnsService.create({ columnName, boardId: savedBoard.id }),
         );
 
-        await Promise.all(columns);
+        await Promise.all(columnsPromises);
       }
 
       return savedBoard;
