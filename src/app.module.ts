@@ -7,6 +7,10 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { BoardsModule } from './boards/boards.module';
+import { ColumnsModule } from './columns/columns.module';
+import { TasksModule } from './tasks/tasks.module';
+import { SubtasksModule } from './subtasks/subtasks.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -35,6 +39,10 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    BoardsModule,
+    ColumnsModule,
+    TasksModule,
+    SubtasksModule,
   ],
   controllers: [],
   providers: [],

@@ -2,6 +2,33 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Subtask {
+  id: ID!
+  title: String!
+  isCompleted: Boolean!
+}
+
+type Task {
+  id: ID!
+  title: String!
+  description: String!
+  status: String!
+  subtasks: [Subtask!]!
+}
+
+type ColumnEntity {
+  id: ID!
+  columnName: String!
+  tasks: [Task!]!
+}
+
+type Board {
+  id: ID!
+  boardName: String!
+  columns: [ColumnEntity!]!
+  user: User!
+}
+
 type User {
   id: ID!
   fullName: String!
@@ -18,6 +45,14 @@ type AuthResponse {
 type Query {
   users: [User!]!
   user(id: ID!): User!
+  boards: [Board!]!
+  board(id: Int!): Board!
+  columns: [ColumnEntity!]!
+  column(id: Int!): ColumnEntity!
+  tasks: [Task!]!
+  task(id: Int!): Task!
+  subtasks: [Subtask!]!
+  subtask(id: Int!): Subtask!
   revalidate: AuthResponse!
 }
 
@@ -25,6 +60,18 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createBoard(createBoardInput: CreateBoardInput!): Board!
+  updateBoard(updateBoardInput: UpdateBoardInput!): Board!
+  removeBoard(id: Int!): Board!
+  createColumn(createColumnInput: CreateColumnInput!): ColumnEntity!
+  updateColumn(updateColumnInput: UpdateColumnInput!): ColumnEntity!
+  removeColumn(id: Int!): ColumnEntity!
+  createTask(createTaskInput: CreateTaskInput!): Task!
+  updateTask(updateTaskInput: UpdateTaskInput!): Task!
+  removeTask(id: Int!): Task!
+  createSubtask(createSubtaskInput: CreateSubtaskInput!): Subtask!
+  updateSubtask(updateSubtaskInput: UpdateSubtaskInput!): Subtask!
+  removeSubtask(id: Int!): Subtask!
   signup(signupInput: SignupInput!): AuthResponse!
   login(loginInput: LoginInput!): AuthResponse!
 }
@@ -39,6 +86,50 @@ input UpdateUserInput {
   email: String
   fullName: String
   password: String
+  id: Int!
+}
+
+input CreateBoardInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateBoardInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateColumnInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateColumnInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateTaskInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTaskInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateSubtaskInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateSubtaskInput {
+  """Example field (placeholder)"""
+  exampleField: Int
   id: Int!
 }
 

@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Board } from '../../boards/entities/board.entity';
 
 @Entity({ name: 'users' })
 @ObjectType()
@@ -28,6 +29,6 @@ export class User {
   isActive: boolean;
 
   //? Boards relation
-  // @OneToMany(() => Board, (board) => board.user, { lazy: true })
-  // boards: Board[];
+  @OneToMany(() => Board, (board) => board.user, { lazy: true })
+  boards: Board[];
 }
