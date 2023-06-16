@@ -5,12 +5,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { BoardsModule } from './boards/boards.module';
 import { ColumnsModule } from './columns/columns.module';
-import { TasksModule } from './tasks/tasks.module';
 import { SubtasksModule } from './subtasks/subtasks.module';
+import { TasksModule } from './tasks/tasks.module';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,6 +19,7 @@ import { SubtasksModule } from './subtasks/subtasks.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      useGlobalPrefix: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
