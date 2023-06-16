@@ -8,12 +8,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateBoardInput } from './dto/create-board.input';
-import { UpdateBoardInput } from './dto/update-board.input';
+import { Board } from './entities/board.entity';
+import { CreateBoardInput, UpdateBoardInput } from './dto';
 
 import { User } from '../users/entities/user.entity';
-import { Board } from './entities/board.entity';
-
 import { ColumnsService } from '../columns/columns.service';
 
 @Injectable()
@@ -26,7 +24,7 @@ export class BoardsService {
     private readonly columnsService: ColumnsService,
   ) {}
 
-  async create(
+  async createBoard(
     { boardName, columnsNames }: CreateBoardInput,
     user: User,
   ): Promise<Board> {
@@ -51,13 +49,13 @@ export class BoardsService {
     }
   }
 
-  async findAll(user: User): Promise<Board[]> {
+  async findAllBoardsByUser(user: User): Promise<Board[]> {
     return await this.boardsRepository.find({
       where: { user: { id: user.id } },
     });
   }
 
-  async findOne(id: string, user: User): Promise<Board> {
+  async findOneBoard(id: string, user: User): Promise<Board> {
     const board = await this.boardsRepository.findOne({
       where: { id, user: { id: user.id } },
     });
@@ -67,20 +65,20 @@ export class BoardsService {
     return board;
   }
 
-  async update(
+  async updateBoard(
     id: string,
     updateBoardInput: UpdateBoardInput,
     user: User,
   ): Promise<Board> {
-    await this.findOne(id, user);
+    await this.findOneBoard(id, user);
 
     const board = await this.boardsRepository.preload(updateBoardInput);
 
     return await this.boardsRepository.save(board);
   }
 
-  async remove(id: string, user: User): Promise<Board> {
-    const board = await this.findOne(id, user);
+  async removeBoard(id: string, user: User): Promise<Board> {
+    const board = await this.findOneBoard(id, user);
 
     await this.boardsRepository.remove(board);
     return { ...board, id };

@@ -1,9 +1,8 @@
-import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
-import { ColumnsService } from './columns.service';
-import { ColumnEntity } from './entities/column.entity';
-import { CreateColumnInput } from './dto/create-column.input';
-import { UpdateColumnInput } from './dto/update-column.input';
 import { ParseUUIDPipe } from '@nestjs/common';
+import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+import { ColumnEntity } from './entities/column.entity';
+import { ColumnsService } from './columns.service';
+import { CreateColumnInput, UpdateColumnInput } from './dto';
 
 @Resolver(() => ColumnEntity)
 export class ColumnsResolver {
@@ -17,26 +16,28 @@ export class ColumnsResolver {
   }
 
   @Query(() => [ColumnEntity], { name: 'columns' })
-  findAll() {
+  async findAll() {
     return this.columnsService.findAll();
   }
 
   @Query(() => ColumnEntity, { name: 'column' })
-  findOne(
+  async findOne(
     @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
   ): Promise<ColumnEntity> {
     return this.columnsService.findOne(id);
   }
 
   @Mutation(() => ColumnEntity)
-  updateColumn(
+  async updateColumn(
     @Args('updateColumnInput') updateColumnInput: UpdateColumnInput,
   ) {
     return this.columnsService.update(updateColumnInput.id, updateColumnInput);
   }
 
   @Mutation(() => ColumnEntity)
-  removeColumn(@Args('id', { type: () => Int }) id: number) {
+  async removeColumn(
+    @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+  ): Promise<ColumnEntity> {
     return this.columnsService.remove(id);
   }
 }

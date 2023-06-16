@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateColumnInput } from './dto/create-column.input';
-import { UpdateColumnInput } from './dto/update-column.input';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ColumnEntity } from './entities/column.entity';
 import { Repository } from 'typeorm';
+
+import { ColumnEntity } from './entities/column.entity';
+import { CreateColumnInput, UpdateColumnInput } from './dto';
 
 @Injectable()
 export class ColumnsService {
@@ -40,7 +40,11 @@ export class ColumnsService {
     return `This action updates a #${id} column`;
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} column`;
+  async remove(id: string): Promise<ColumnEntity> {
+    const column = await this.findOne(id);
+
+    await this.columnsRepository.remove(column);
+
+    return { ...column, id };
   }
 }

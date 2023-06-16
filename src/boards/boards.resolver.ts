@@ -20,12 +20,12 @@ export class BoardsResolver {
     @Args('createBoardInput') createBoardInput: CreateBoardInput,
     @CurrentUser() user: User,
   ): Promise<Board> {
-    return this.boardsService.create(createBoardInput, user);
+    return this.boardsService.createBoard(createBoardInput, user);
   }
 
   @Query(() => [Board], { name: 'boards' })
   findAll(@CurrentUser() user: User): Promise<Board[]> {
-    return this.boardsService.findAll(user);
+    return this.boardsService.findAllBoardsByUser(user);
   }
 
   @Query(() => Board, { name: 'board' })
@@ -33,7 +33,7 @@ export class BoardsResolver {
     @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
     @CurrentUser() user: User,
   ): Promise<Board> {
-    return this.boardsService.findOne(id, user);
+    return this.boardsService.findOneBoard(id, user);
   }
 
   @Mutation(() => Board)
@@ -41,7 +41,7 @@ export class BoardsResolver {
     @Args('updateBoardInput') updateBoardInput: UpdateBoardInput,
     @CurrentUser() user: User,
   ): Promise<Board> {
-    return this.boardsService.update(
+    return this.boardsService.updateBoard(
       updateBoardInput.id,
       updateBoardInput,
       user,
@@ -53,6 +53,6 @@ export class BoardsResolver {
     @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
     @CurrentUser() user: User,
   ): Promise<Board> {
-    return this.boardsService.remove(id, user);
+    return this.boardsService.removeBoard(id, user);
   }
 }

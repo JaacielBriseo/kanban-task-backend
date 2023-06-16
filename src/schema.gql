@@ -52,7 +52,7 @@ type Query {
   column(id: ID!): ColumnEntity!
   revalidate: AuthResponse!
   tasks: [Task!]!
-  task(id: Int!): Task!
+  task(id: ID!): Task!
   subtasks: [Subtask!]!
   subtask(id: Int!): Subtask!
 }
@@ -66,12 +66,12 @@ type Mutation {
   removeBoard(id: ID!): Board!
   createColumn(createColumnInput: CreateColumnInput!): ColumnEntity!
   updateColumn(updateColumnInput: UpdateColumnInput!): ColumnEntity!
-  removeColumn(id: Int!): ColumnEntity!
+  removeColumn(id: ID!): ColumnEntity!
   signup(signupInput: SignupInput!): AuthResponse!
   login(loginInput: LoginInput!): AuthResponse!
   createTask(createTaskInput: CreateTaskInput!): Task!
   updateTask(updateTaskInput: UpdateTaskInput!): Task!
-  removeTask(id: Int!): Task!
+  removeTask(id: ID!): Task!
   createSubtask(createSubtaskInput: CreateSubtaskInput!): Subtask!
   updateSubtask(updateSubtaskInput: UpdateSubtaskInput!): Subtask!
   removeSubtask(id: Int!): Subtask!

@@ -17,6 +17,6 @@ export class Subtask {
   @Field(() => Boolean)
   isCompleted: boolean;
 
-  @ManyToOne(() => Task, (task) => task.subtasks)
+  @ManyToOne(() => Task, (task) => task.subtasks, { onDelete: 'CASCADE' })
   task: Task;
 }

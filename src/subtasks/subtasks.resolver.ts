@@ -1,8 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { SubtasksService } from './subtasks.service';
 import { Subtask } from './entities/subtask.entity';
-import { CreateSubtaskInput } from './dto/create-subtask.input';
-import { UpdateSubtaskInput } from './dto/update-subtask.input';
+import { CreateSubtaskInput, UpdateSubtaskInput } from './dto';
 
 @Resolver(() => Subtask)
 export class SubtasksResolver {
@@ -16,17 +15,17 @@ export class SubtasksResolver {
   }
 
   @Query(() => [Subtask], { name: 'subtasks' })
-  findAll() {
+  async findAll() {
     return this.subtasksService.findAll();
   }
 
   @Query(() => Subtask, { name: 'subtask' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  async findOne(@Args('id', { type: () => Int }) id: number) {
     return this.subtasksService.findOne(id);
   }
 
   @Mutation(() => Subtask)
-  updateSubtask(
+  async updateSubtask(
     @Args('updateSubtaskInput') updateSubtaskInput: UpdateSubtaskInput,
   ) {
     return this.subtasksService.update(
@@ -36,7 +35,7 @@ export class SubtasksResolver {
   }
 
   @Mutation(() => Subtask)
-  removeSubtask(@Args('id', { type: () => Int }) id: number) {
+  async removeSubtask(@Args('id', { type: () => Int }) id: number) {
     return this.subtasksService.remove(id);
   }
 }

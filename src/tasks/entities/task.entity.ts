@@ -28,7 +28,9 @@ export class Task {
   @Field(() => String)
   status: string;
 
-  @ManyToOne(() => ColumnEntity, (column) => column.tasks)
+  @ManyToOne(() => ColumnEntity, (column) => column.tasks, {
+    onDelete: 'CASCADE',
+  })
   column: ColumnEntity;
 
   @OneToMany(() => Subtask, (subtask) => subtask.task, { lazy: true })
