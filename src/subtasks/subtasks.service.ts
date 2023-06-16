@@ -11,9 +11,14 @@ export class SubtasksService {
     @InjectRepository(Subtask)
     private readonly subtasksRepository: Repository<Subtask>,
   ) {}
-  async create({ taskId, title }: CreateSubtaskInput): Promise<Subtask> {
+  async create({
+    taskId,
+    title,
+    isCompleted,
+  }: CreateSubtaskInput): Promise<Subtask> {
     const newSubtask = this.subtasksRepository.create({
       title,
+      isCompleted,
       task: { id: taskId },
     });
 

@@ -11,6 +11,7 @@ import { ColumnsModule } from './columns/columns.module';
 import { SubtasksModule } from './subtasks/subtasks.module';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
+import { SeedModule } from './seed/seed.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -44,6 +45,7 @@ import { UsersModule } from './users/users.module';
     ColumnsModule,
     TasksModule,
     SubtasksModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],

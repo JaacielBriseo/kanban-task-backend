@@ -1,5 +1,11 @@
 import { InputType, Field, ID } from '@nestjs/graphql';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 @InputType()
 export class CreateSubtaskInput {
@@ -11,4 +17,9 @@ export class CreateSubtaskInput {
   @IsString()
   @IsNotEmpty()
   title: string;
+
+  @Field(() => Boolean)
+  @IsOptional()
+  @IsBoolean()
+  isCompleted?: boolean = false;
 }

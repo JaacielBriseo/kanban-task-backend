@@ -30,7 +30,7 @@ export class ColumnsResolver {
   @Mutation(() => ColumnEntity)
   async updateColumn(
     @Args('updateColumnInput') updateColumnInput: UpdateColumnInput,
-  ) {
+  ): Promise<ColumnEntity> {
     return this.columnsService.update(updateColumnInput.id, updateColumnInput);
   }
 

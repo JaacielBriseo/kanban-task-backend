@@ -25,7 +25,7 @@ export class ColumnsService {
   }
 
   async findAll() {
-    return `This action returns all columns`;
+    throw new Error('Find all columns not implemented ');
   }
 
   async findOne(id: string): Promise<ColumnEntity> {
@@ -36,8 +36,15 @@ export class ColumnsService {
     return column;
   }
 
-  async update(id: number, updateColumnInput: UpdateColumnInput) {
-    return `This action updates a #${id} column`;
+  async update(
+    id: string,
+    updateColumnInput: UpdateColumnInput,
+  ): Promise<ColumnEntity> {
+    await this.findOne(id);
+
+    const board = await this.columnsRepository.preload(updateColumnInput);
+
+    return await this.columnsRepository.save(board);
   }
 
   async remove(id: string): Promise<ColumnEntity> {

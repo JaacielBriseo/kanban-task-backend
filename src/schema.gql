@@ -43,6 +43,11 @@ type AuthResponse {
   user: User!
 }
 
+type SeedResponse {
+  ok: Boolean!
+  msg: String!
+}
+
 type Query {
   users: [User!]!
   user(id: ID!): User!
@@ -75,6 +80,9 @@ type Mutation {
   createSubtask(createSubtaskInput: CreateSubtaskInput!): Subtask!
   updateSubtask(updateSubtaskInput: UpdateSubtaskInput!): Subtask!
   removeSubtask(id: Int!): Subtask!
+
+  """Fill DB with some data for development"""
+  executeSeed: SeedResponse!
 }
 
 input CreateUserInput {
@@ -109,7 +117,7 @@ input CreateColumnInput {
 input UpdateColumnInput {
   columnName: String
   boardId: ID
-  id: Int!
+  id: ID!
 }
 
 input SignupInput {
@@ -141,10 +149,12 @@ input UpdateTaskInput {
 input CreateSubtaskInput {
   taskId: ID!
   title: String!
+  isCompleted: Boolean! = false
 }
 
 input UpdateSubtaskInput {
   taskId: ID
   title: String
+  isCompleted: Boolean = false
   id: Int!
 }

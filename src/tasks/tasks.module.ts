@@ -11,6 +11,6 @@ import { ColumnsModule } from '../columns/columns.module';
 @Module({
   providers: [TasksResolver, TasksService],
   imports: [TypeOrmModule.forFeature([Task]), SubtasksModule, ColumnsModule],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule,TasksService],
 })
 export class TasksModule {}

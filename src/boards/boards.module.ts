@@ -8,6 +8,6 @@ import { ColumnsModule } from '../columns/columns.module';
 @Module({
   providers: [BoardsResolver, BoardsService],
   imports: [TypeOrmModule.forFeature([Board]), ColumnsModule],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, BoardsService],
 })
 export class BoardsModule {}
