@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -25,19 +25,34 @@ export class SubtasksService {
     return await this.subtasksRepository.save(newSubtask);
   }
 
-  async findAll() {
-    return `This action returns all subtasks`;
+  async findAll(): Promise<Subtask[]> {
+    throw new Error('Find all subtasks not implemented');
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} subtask`;
+  async findOne(id: string): Promise<Subtask> {
+    const subtask = await this.subtasksRepository.findOneBy({ id });
+
+    if (!subtask)
+      throw new NotFoundException(`Subtask with id '${id}' not found`);
+
+    return subtask;
   }
 
-  async update(id: number, updateSubtaskInput: UpdateSubtaskInput) {
-    return `This action updates a #${id} subtask`;
+  async update(
+    id: string,
+    updateSubtaskInput: UpdateSubtaskInput,
+  ): Promise<Subtask> {
+    await this.findOne(id);
+
+    const subtask = await this.subtasksRepository.preload(updateSubtaskInput);
+
+    return await this.subtasksRepository.save(subtask);
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} subtask`;
+  async remove(id: string): Promise<Subtask> {
+    const subtask = await this.findOne(id);
+
+    await this.subtasksRepository.remove(subtask);
+    return { ...subtask, id };
   }
 }

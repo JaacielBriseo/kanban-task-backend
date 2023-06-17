@@ -47,7 +47,7 @@ export class TasksService {
   }
 
   async findAll() {
-    return `This action returns all tasks`;
+    throw new Error('Find all tasks not implemented');
   }
 
   async findOne(id: string): Promise<Task> {
@@ -60,8 +60,17 @@ export class TasksService {
     return task;
   }
 
-  async update(id: number, updateTaskInput: UpdateTaskInput) {
-    return `This action updates a #${id} task`;
+  async update(id: string, { columnId, ...rest }: UpdateTaskInput) {
+    const queryBuilder = this.tasksRepository
+      .createQueryBuilder()
+      .update()
+      .set(rest)
+      .where('id = :id', { id });
+
+    if (columnId) queryBuilder.set({ column: { id: columnId } });
+
+    await queryBuilder.execute();
+    return this.findOne(id);
   }
 
   async remove(id: string): Promise<Task> {

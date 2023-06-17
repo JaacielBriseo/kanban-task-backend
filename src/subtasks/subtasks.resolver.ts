@@ -1,7 +1,8 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { SubtasksService } from './subtasks.service';
 import { Subtask } from './entities/subtask.entity';
 import { CreateSubtaskInput, UpdateSubtaskInput } from './dto';
+import { ParseUUIDPipe } from '@nestjs/common';
 
 @Resolver(() => Subtask)
 export class SubtasksResolver {
@@ -15,19 +16,21 @@ export class SubtasksResolver {
   }
 
   @Query(() => [Subtask], { name: 'subtasks' })
-  async findAll() {
+  async findAll(): Promise<Subtask[]> {
     return this.subtasksService.findAll();
   }
 
   @Query(() => Subtask, { name: 'subtask' })
-  async findOne(@Args('id', { type: () => Int }) id: number) {
+  async findOne(
+    @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+  ): Promise<Subtask> {
     return this.subtasksService.findOne(id);
   }
 
   @Mutation(() => Subtask)
   async updateSubtask(
     @Args('updateSubtaskInput') updateSubtaskInput: UpdateSubtaskInput,
-  ) {
+  ): Promise<Subtask> {
     return this.subtasksService.update(
       updateSubtaskInput.id,
       updateSubtaskInput,
@@ -35,7 +38,9 @@ export class SubtasksResolver {
   }
 
   @Mutation(() => Subtask)
-  async removeSubtask(@Args('id', { type: () => Int }) id: number) {
+  async removeSubtask(
+    @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+  ): Promise<Subtask> {
     return this.subtasksService.remove(id);
   }
 }

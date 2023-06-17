@@ -59,7 +59,7 @@ type Query {
   tasks: [Task!]!
   task(id: ID!): Task!
   subtasks: [Subtask!]!
-  subtask(id: Int!): Subtask!
+  subtask(id: ID!): Subtask!
 }
 
 type Mutation {
@@ -79,7 +79,7 @@ type Mutation {
   removeTask(id: ID!): Task!
   createSubtask(createSubtaskInput: CreateSubtaskInput!): Subtask!
   updateSubtask(updateSubtaskInput: UpdateSubtaskInput!): Subtask!
-  removeSubtask(id: Int!): Subtask!
+  removeSubtask(id: ID!): Subtask!
 
   """Fill DB with some data for development"""
   executeSeed: SeedResponse!
@@ -143,7 +143,7 @@ input UpdateTaskInput {
   description: String
   columnId: ID
   subtasksTitles: [String!]
-  id: Int!
+  id: ID!
 }
 
 input CreateSubtaskInput {
@@ -156,5 +156,5 @@ input UpdateSubtaskInput {
   taskId: ID
   title: String
   isCompleted: Boolean = false
-  id: Int!
+  id: ID!
 }
